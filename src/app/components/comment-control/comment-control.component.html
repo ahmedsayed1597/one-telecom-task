@@ -1,0 +1,91 @@
+<section style="background-color: #eee;">
+    <div class="container">
+      <h1 class="text-center p-3 mt-3 bg-primary">Comment Control</h1>
+        <div class="row">
+
+    <form [formGroup]="commentForm">
+        <div class="form-group">
+          <label for="exampleFormControlInput1">Comment Name</label>
+          <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Comment Name" formControlName="name">
+        </div>
+        
+        <div class="form-group">
+          <label for="exampleFormControlTextarea1">Comment Body</label>
+          <textarea class="form-control" id="exampleFormControlTextarea1" formControlName="body" placeholder="Comment body" rows="3"></textarea>
+        </div>
+
+        <button class="btn btn-primary mt-2" (click)="post()">Add Comment to this Post</button>
+      </form>
+    </div>
+</div>
+
+<!-- ----------------Comments --------------------------------------- -->
+    <div class="container my-5 py-5">
+      <div class="row d-flex justify-content-center">
+        <div class="col-md-12 col-lg-10 col-xl-8 mt-3" *ngFor="let comment of comments; index as commentNumber">
+          <div class="card">
+            <div class="card-body">
+              <div class="d-flex flex-start align-items-center">
+                <img class="rounded-circle shadow-1-strong me-3"
+                  src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(19).webp" alt="avatar" width="60"
+                  height="60" />
+                <div>
+                  <h4 class="fw-bold text-primary mb-1">comment Number {{comment.id}}</h4>
+                  <h6 class="fw-bold text-primary mb-1">{{comment.name}}</h6>
+
+                </div>
+              </div>
+  
+              <p class="mt-3 mb-4 pb-2">
+                {{comment.body}}
+              </p>
+  
+            </div>
+                <button type="button" class="btn btn-primary btn-sm"data-bs-toggle="modal" data-bs-target="#updateCommentModal" (click)="setCommentID(comment.id)">update post</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      <!------------------------------------------------------------------------------------->
+
+  <!-- Updated Modal -->
+  <div class="modal fade" id="updateCommentModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header bg-model">
+          <h5 class="modal-title model-text" id="exampleModalLabel">Edit Your Comment</h5>
+          <button type="button" class="btn-close text-light" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <form [formGroup]="commentUpdateForm">
+          <div class="modal-body">
+            <div class="container">
+              <div class="row">
+
+                <div class="form-group" >
+                    <label for="exampleFormControlInput1">Comment Name</label>
+                   
+                    <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name" formControlName="name">
+                  </div>
+              <textarea class="form-control" id="textAreaExample" rows="4" formControlName="body" 
+                style="background: #fff;"></textarea>
+              <label class="form-label" for="textAreaExample">Message</label>
+
+              </div>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn btn-primary" data-bs-dismiss="modal" (click)="update()">Save Changes </button>
+          </div>
+        </form>
+
+
+      </div>
+    </div>
+  </div>
+
+  </section>
+
