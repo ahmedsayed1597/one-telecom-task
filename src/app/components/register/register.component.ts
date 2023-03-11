@@ -21,7 +21,7 @@ export class RegisterComponent implements OnInit {
       firstName: new FormControl("", [Validators.required, Validators.minLength(3), Validators.maxLength(30)]),
       lastName: new FormControl("", [Validators.required, Validators.minLength(3), Validators.maxLength(30)]),
       email: new FormControl("", [Validators.required, Validators.email]),
-      password: new FormControl("", [Validators.required,Validators.minLength(6)]),
+      password: new FormControl("", [Validators.required, Validators.minLength(6)]),
       password_repeat: new FormControl("", [Validators.required]),
     });
   }
@@ -46,19 +46,27 @@ export class RegisterComponent implements OnInit {
     else return false;
   }
 
+
   async onSignUp() {
     if (this.registerationForm.valid == true && this.checkPassswordConfirmation()) {
-      await this._FirebaseService.signUp(this.registerationForm.value['email'], this.registerationForm.value['password'])
-      if (this._FirebaseService.isLoggedIn) {
-        this._Router.navigate(['Login'])
-        this.isSignedIn = true;
+      try {
+        await this._FirebaseService.signUp(this.registerationForm.value['email'], this.registerationForm.value['password']);
+        if (this._FirebaseService.isLoggedIn) {
+          this._Router.navigate(['Login'])
+          this.isSignedIn = true;
+        }
+      } catch (error:any) {
+        this.responseMessage = error.message
+         console.log(error.message)
       }
+
     }
   }
 
 
-  handleLogOut(){
-    this.isSignedIn = false;
-    this._FirebaseService.logOut();
-  }
+
+handleLogOut(){
+  this.isSignedIn = false;
+  this._FirebaseService.logOut();
+}
 }

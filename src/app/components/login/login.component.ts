@@ -23,13 +23,20 @@ export class LoginComponent implements OnInit {
     });
   }
 
+
   async onSignIn() {
     if (this.logInForm.valid == true) {
-      await this._FirebaseService.signIn(this.logInForm.value['email'], this.logInForm.value['password'])
-      if (this._FirebaseService.isLoggedIn) {
-        this.isLogedIn = true;
-        this._Router.navigate(['panel/posts/all'])
+      try{
+        await this._FirebaseService.signIn(this.logInForm.value['email'], this.logInForm.value['password'])
+        if (this._FirebaseService.isLoggedIn) {
+          this.isLogedIn = true;
+          this._Router.navigate(['panel/posts/all'])
+        }
+      }  catch (error:any) {
+        this.responseMessage = error.message
+         console.log(error.message)
       }
+
     }
   }
 
